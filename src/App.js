@@ -45,7 +45,6 @@ class App extends Component {
     const monthStart = moment([today.getFullYear(), today.getMonth(), 1]);
     Promise.all(config.EVENT_SOURCES.map(url => fetch(url).then(res => res.text())))
       .then(texts => {
-        console.log(texts);
         let data = texts.map(t => t.split('\n')).flat().filter(l => l.trim()).map(JSON.parse);
         const events = data.map((e) => {
           e.agency = e.extra["cityscrapers.org/agency"];
@@ -54,13 +53,6 @@ class App extends Component {
           return e;
         }).filter(e => e.start >= monthStart
         ).sort((a, b) => a.start.toDate() - b.start.toDate());
-
-        events.forEach((e) => {
-          if (e.name === 'Policy Committee') {
-            console.log(e);
-          }
-        });
-        console.log(events.length);
 
         const agencyOptions = [...new Set(events.map(e => e.agency))].map(e => {
           return { label: e, value: e };
