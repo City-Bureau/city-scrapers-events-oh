@@ -50,21 +50,22 @@ const applyFilters = ({ allEvents, region, agency, month, year, search }) => {
 
 // Fetch and parse newline-delimited JSON of events
 const loadEvents = () =>
-  fetch(config.EVENT_SOURCE)
-    .then((res) => res.text())
-    .then((text) =>
-      text
-        .split("\n")
-        .filter((l) => l.trim())
-        .map(JSON.parse)
-        .map((event) => ({
-          ...event,
-          agency: (event.extras || event.extra)["cityscrapers.org/agency"],
-          start: moment.tz(event.start_time, event.timezone),
-          end: moment.tz(event.end_time, event.timezone),
-        }))
-        .sort((a, b) => a.start.toDate() - b.start.toDate())
-    )
+  Promise.all(
+    config.EVENT_SOURCES.map((url) => fetch(url).then((res) => res.text()))
+  ).then((texts) =>
+    texts
+      .join("\n")
+      .split("\n")
+      .filter((l) => l.trim())
+      .map(JSON.parse)
+      .map((event) => ({
+        ...event,
+        agency: (event.extras || event.extra)["cityscrapers.org/agency"],
+        start: moment.tz(event.start_time, event.timezone),
+        end: moment.tz(event.end_time, event.timezone),
+      }))
+      .sort((a, b) => a.start.toDate() - b.start.toDate())
+  )
 
 const App = () => {
   // eslint-disable-next-line no-unused-vars
