@@ -5,15 +5,10 @@ React app created with [create-react-app](https://github.com/facebook/create-rea
 ## Setup
 
 Using NPM:
+
 ```bash
 npm install
 npm start
-```
-
-Using Yarn:
-```bash
-yarn
-yarn start
 ```
 
 ## License
