@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/city-scrapers-events-oh/precache-manifest.6c56fb6640c39a754069a4a29f43b6ce.js"
+  "/city-scrapers-events-oh/precache-manifest.137771d786b9ec067081a618a6b05b7c.js"
 );
 
 self.addEventListener('message', (event) => {
